@@ -3,6 +3,7 @@ package com.neobyte.footbalschedule
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import com.neobyte.footbalschedule.favorite.FavoriteFragment
 import com.neobyte.footbalschedule.next.NextMatchFragment
 import com.neobyte.footbalschedule.prev.PrevMatchFragment
 import kotlinx.android.synthetic.main.activity_main.nav_bottom
@@ -22,6 +23,11 @@ class MainActivity : AppCompatActivity() {
         }
         R.id.action_next -> {
           val fragment = NextMatchFragment()
+          changeHomeFragment(fragment)
+          true
+        }
+        R.id.action_favorite -> {
+          val fragment = FavoriteFragment()
           changeHomeFragment(fragment)
           true
         }

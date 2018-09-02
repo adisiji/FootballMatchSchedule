@@ -15,4 +15,11 @@
       android:title="Next Match"
       app:showAsAction="ifRoom" />
 
+  <item
+      android:id="@+id/action_favorite"
+      android:enabled="true"
+      android:icon="@drawable/ic_stars_blue_500_24dp"
+      android:title="Favorite"
+      app:showAsAction="ifRoom" />
+
 </menu>

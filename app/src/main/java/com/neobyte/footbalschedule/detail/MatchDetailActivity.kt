@@ -1,12 +1,17 @@
 package com.neobyte.footbalschedule.detail
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.neobyte.footbalschedule.Constants
 import com.neobyte.footbalschedule.R
+import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.models.Event
 import com.neobyte.footbalschedule.models.Team
 import kotlinx.android.synthetic.main.activity_match_detail.iv_logo_team1
@@ -35,24 +40,61 @@ import kotlinx.android.synthetic.main.activity_match_detail.tv_substitutes_team_
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_1
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_2
 
-class MatchDetailActivity : AppCompatActivity() {
+class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
 
   lateinit var presenter: MatchDetailPresenter
+  lateinit var event: Event
+  lateinit var menu: Menu
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_match_detail)
 
-    presenter = MatchDetailPresenter()
-    val event = intent.getParcelableExtra<Event>(Constants.EVENT)
-
-    if (event != null) {
-      setupView(event)
-    } else {
-      finish()
-    }
+    event = intent.getParcelableExtra(Constants.EVENT)
 
     supportActionBar?.title = "Match Detail"
+  }
+
+  override fun onResume() {
+    super.onResume()
+    val databaseHelper = DatabaseHelper.getInstance(this)
+    presenter = MatchDetailPresenter(databaseHelper, this)
+    setupView(event)
+  }
+
+  override fun onCreateOptionsMenu(menu: Menu): Boolean {
+    menuInflater.inflate(R.menu.detail_menu, menu)
+    this.menu = menu
+    presenter.getFavorite(event.idEvent ?: "")
+    return true
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    return when (item.itemId) {
+      android.R.id.home -> {
+        finish()
+        true
+      }
+      R.id.add_to_favorite -> {
+        presenter.setFavorite(event)
+        true
+      }
+      else -> super.onOptionsItemSelected(item)
+    }
+  }
+
+  override fun showSnackbar(message: String) {
+    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
+  }
+
+  override fun setAsFavourite(favourite: Boolean) {
+    if (favourite) {
+      menu.getItem(0).icon = ContextCompat.getDrawable(this,
+                                                       R.drawable.ic_star_white_24dp)
+    } else {
+      menu.getItem(0).icon = ContextCompat.getDrawable(this,
+                                                       R.drawable.ic_star_border_white_24dp)
+    }
   }
 
   fun setupView(event: Event) {
@@ -66,16 +108,13 @@ class MatchDetailActivity : AppCompatActivity() {
       }
 
       override fun onSuccess(team: Team) {
-        Glide.with(this@MatchDetailActivity)
-            .load(team.strTeamLogo)
-            .into(iv_logo_team1)
+        Glide.with(this@MatchDetailActivity).load(team.strTeamLogo).into(iv_logo_team1)
         progress_logo_1.visibility = View.GONE
       }
 
       override fun onFailed(message: String?) {
         progress_logo_1.visibility = View.GONE
-        Toast.makeText(this@MatchDetailActivity, message, Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(this@MatchDetailActivity, message, Toast.LENGTH_SHORT).show()
       }
     })
     tv_skor_team_1.text = event.intHomeScore
@@ -88,16 +127,13 @@ class MatchDetailActivity : AppCompatActivity() {
       }
 
       override fun onSuccess(team: Team) {
-        Glide.with(this@MatchDetailActivity)
-            .load(team.strTeamLogo)
-            .into(iv_logo_team2)
+        Glide.with(this@MatchDetailActivity).load(team.strTeamLogo).into(iv_logo_team2)
         progress_logo_2.visibility = View.GONE
       }
 
       override fun onFailed(message: String?) {
         progress_logo_2.visibility = View.GONE
-        Toast.makeText(this@MatchDetailActivity, message, Toast.LENGTH_SHORT)
-            .show()
+        Toast.makeText(this@MatchDetailActivity, message, Toast.LENGTH_SHORT).show()
       }
     })
     tv_skor_team_2.text = event.intAwayScore
@@ -129,7 +165,7 @@ class MatchDetailActivity : AppCompatActivity() {
 
   }
 
-  private fun String?.changeNewLine() : String? {
+  private fun String?.changeNewLine(): String? {
     return this?.replace(";", "\n")
   }
 
