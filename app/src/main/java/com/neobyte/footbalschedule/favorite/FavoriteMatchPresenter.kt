@@ -12,7 +12,7 @@ import org.jetbrains.anko.db.select
 class FavoriteMatchPresenter(private val favoriteMatchView: FavoriteMatchView,
     private val databaseHelper: DatabaseHelper) {
 
-  val gson = Gson()
+  private val gson = Gson()
 
   init {
     getFavMatch()

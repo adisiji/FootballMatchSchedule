@@ -39,6 +39,8 @@ import kotlinx.android.synthetic.main.activity_match_detail.tv_substitutes_team_
 import kotlinx.android.synthetic.main.activity_match_detail.tv_substitutes_team_2
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_1
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_2
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
 
@@ -100,7 +102,10 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
   fun setupView(event: Event) {
     val matchIsDone = intent.getBooleanExtra(Constants.DONE_MATCH, true)
 
-    tv_date_detail.text = event.dateEvent
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+    val myDate = sdf.parse(event.dateEvent)
+    sdf.applyPattern("EEE, d MMM yyyy")
+    tv_date_detail.text = sdf.format(myDate)
     tv_team_1.text = event.strHomeTeam
     presenter.getTeam(event.idHomeTeam ?: "", object : GetTeamListener {
       override fun onLoading() {

@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.neobyte.footbalschedule.MatchAdapter.TeamViewHolder
 import com.neobyte.footbalschedule.models.Event
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class MatchAdapter(private val events: List<Event?>, private val listener: (pos: Int) -> Unit) :
     RecyclerView.Adapter<TeamViewHolder>() {
@@ -33,7 +35,10 @@ class MatchAdapter(private val events: List<Event?>, private val listener: (pos:
 
     fun bindItem(event: Event?, pos: Int) {
       event?.let { _ ->
-        matchDate.text = event.strDate
+        val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        val myDate = sdf.parse(event.dateEvent)
+        sdf.applyPattern("EEE, d MMM yyyy")
+        matchDate.text = sdf.format(myDate)
 
         teamName1.text = event.strHomeTeam
         teamScore1.text = event.intHomeScore
