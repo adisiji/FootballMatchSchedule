@@ -17,10 +17,10 @@ import org.jetbrains.anko.db.delete
 import org.jetbrains.anko.db.insert
 import org.jetbrains.anko.db.select
 
-class MatchDetailPresenter(private val databaseHelper: DatabaseHelper,
+open class MatchDetailPresenter(private val databaseHelper: DatabaseHelper,
   private val matchDetailView: MatchDetailView) {
 
-  private var favState = false
+  var favState = false
   private val compositeDisposable = CompositeDisposable()
   private val gson: Gson by lazy {
     Gson()

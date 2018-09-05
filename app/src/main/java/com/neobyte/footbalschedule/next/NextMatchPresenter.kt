@@ -5,24 +5,25 @@ import com.neobyte.footbalschedule.HomeScreenState
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
-class NextMatchPresenter(private val nextMatchView: NextMatchView) {
+class NextMatchPresenter(private val nextMatchView: NextMatchView,
+                         private val footballMatchService: FootballMatchService) {
 
-  init {
-    getNextMatches()
-  }
-
-  fun getNextMatches(){
+  fun getNextMatches() {
     nextMatchView.setScreenState(HomeScreenState.Loading)
-    FootballMatchService.instance.getNextEvent()
+    footballMatchService.getNextEvent()
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ eventResponses ->
-          eventResponses.events?.let {
-            nextMatchView.setScreenState(HomeScreenState.Data(it))
-          }
-        }, {
-          nextMatchView.setScreenState(HomeScreenState.Error(it.message))
-        })
+                     eventResponses.events?.let {
+                       nextMatchView.setScreenState(
+                           HomeScreenState.Data(it)
+                       )
+                     }
+                   }, {
+                     nextMatchView.setScreenState(
+                         HomeScreenState.Error(it.message)
+                     )
+                   })
   }
 
 }

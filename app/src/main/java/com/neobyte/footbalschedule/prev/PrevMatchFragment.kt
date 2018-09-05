@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.neobyte.footbalschedule.Constants
+import com.neobyte.footbalschedule.FootballMatchService
 import com.neobyte.footbalschedule.HomeScreenState
 import com.neobyte.footbalschedule.MatchAdapter
 import com.neobyte.footbalschedule.R
@@ -50,7 +51,8 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
 
   override fun onResume() {
     super.onResume()
-    prevMatchPresenter = PrevMatchPresenter(this)
+    prevMatchPresenter = PrevMatchPresenter(this, FootballMatchService.instance)
+    prevMatchPresenter.getPrevMatches()
   }
 
   override fun setScreenState(homeScreenState: HomeScreenState) {
