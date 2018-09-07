@@ -28,7 +28,7 @@ class DatabaseTest {
   }
 
   @Test
-  fun testInserDeleteFavMatch() {
+  fun testInsertDeleteFavMatch() {
     var startEventCount = databaseHelper.getAllFavMatches().size
     val eventId = System.currentTimeMillis()
     val event = Event(idEvent = "$eventId")

@@ -14,6 +14,7 @@ import com.neobyte.footbalschedule.detail.MatchDetailActivity
 import com.neobyte.footbalschedule.models.Event
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.containsString
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -67,6 +68,11 @@ class MatchDetailActivityTest {
     onView(allOf(withId(android.support.design.R.id.snackbar_text),
                  withText(containsString("favorite"))))
         .check(matches(isDisplayed()))
+  }
+
+  @After
+  fun deleteFakeMatch() {
+    onView(withId(R.id.add_to_favorite)).perform(click())
   }
 
 }
