@@ -7,13 +7,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.neobyte.footbalschedule.MatchAdapter.TeamViewHolder
 import com.neobyte.footbalschedule.models.Event
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class MatchAdapter(private val events: List<Event?>, private val listener: (pos: Int) -> Unit) :
+class MatchAdapter(private val events: List<Event?>,
+                   private val listener: (pos: Int) -> Unit) :
     RecyclerView.Adapter<TeamViewHolder>() {
 
-  override fun onCreateViewHolder(p0: ViewGroup, p1: Int): TeamViewHolder {
+  override fun onCreateViewHolder(p0: ViewGroup,
+                                  p1: Int): TeamViewHolder {
     return TeamViewHolder(
         LayoutInflater.from(p0.context).inflate(R.layout.item_match, p0, false)
     )
@@ -21,7 +24,8 @@ class MatchAdapter(private val events: List<Event?>, private val listener: (pos:
 
   override fun getItemCount() = events.size
 
-  override fun onBindViewHolder(p0: TeamViewHolder, p1: Int) {
+  override fun onBindViewHolder(p0: TeamViewHolder,
+                                p1: Int) {
     p0.bindItem(events[p1], p1)
   }
 
@@ -33,12 +37,17 @@ class MatchAdapter(private val events: List<Event?>, private val listener: (pos:
     private val teamName2: TextView = view.findViewById(R.id.tv_team_2)
     private val teamScore2: TextView = view.findViewById(R.id.tv_skor_team_2)
 
-    fun bindItem(event: Event?, pos: Int) {
+    fun bindItem(event: Event?,
+                 pos: Int) {
       event?.let { _ ->
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        val myDate = sdf.parse(event.dateEvent)
-        sdf.applyPattern("EEE, d MMM yyyy")
-        matchDate.text = sdf.format(myDate)
+        try {
+          val myDate = sdf.parse(event.dateEvent)
+          sdf.applyPattern("EEE, d MMM yyyy")
+          matchDate.text = sdf.format(myDate)
+        } catch (e: ParseException) {
+          e.printStackTrace()
+        }
 
         teamName1.text = event.strHomeTeam
         teamScore1.text = event.intHomeScore

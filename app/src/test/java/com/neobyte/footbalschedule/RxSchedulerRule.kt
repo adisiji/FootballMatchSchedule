@@ -5,7 +5,6 @@ import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.functions.Function
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.Schedulers
-import io.reactivex.schedulers.TestScheduler
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -17,10 +16,6 @@ class RxSchedulerRule : TestRule {
 
   private val mRxAndroidSchedulersHook: Function<Callable<Scheduler>, Scheduler> =
     Function { Schedulers.trampoline() }
-
-  private val testScheduler = TestScheduler()
-
-  fun getTestScheduler(): TestScheduler = testScheduler
 
   override fun apply(base: Statement, description: Description): Statement {
     return object : Statement() {

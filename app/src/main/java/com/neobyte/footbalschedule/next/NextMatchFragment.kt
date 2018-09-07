@@ -33,6 +33,8 @@ class NextMatchFragment : Fragment(), NextMatchView {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    nextMatchPresenter = NextMatchPresenter(this, FootballMatchService.instance)
+
     adapter = MatchAdapter(matches) { pos ->
       val event = matches[pos]
       event?.let {
@@ -52,7 +54,6 @@ class NextMatchFragment : Fragment(), NextMatchView {
 
   override fun onResume() {
     super.onResume()
-    nextMatchPresenter = NextMatchPresenter(this, FootballMatchService.instance)
     nextMatchPresenter.getNextMatches()
   }
 

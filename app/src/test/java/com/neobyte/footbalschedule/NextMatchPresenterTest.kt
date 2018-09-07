@@ -1,10 +1,9 @@
-package com.neobyte.footbalschedule.next
+package com.neobyte.footbalschedule
 
-import com.neobyte.footbalschedule.BasePresenterTest
-import com.neobyte.footbalschedule.FootballMatchService
-import com.neobyte.footbalschedule.HomeScreenState
 import com.neobyte.footbalschedule.models.Event
 import com.neobyte.footbalschedule.models.EventResponses
+import com.neobyte.footbalschedule.next.NextMatchPresenter
+import com.neobyte.footbalschedule.next.NextMatchView
 import io.reactivex.Observable
 import org.junit.Before
 import org.junit.Test
@@ -28,7 +27,8 @@ class NextMatchPresenterTest : BasePresenterTest() {
 
   @Before
   fun setup() {
-    nextMatchPresenter = NextMatchPresenter(nextMatchView, footballMatchService)
+    nextMatchPresenter =
+        NextMatchPresenter(nextMatchView, footballMatchService)
   }
 
   @Test

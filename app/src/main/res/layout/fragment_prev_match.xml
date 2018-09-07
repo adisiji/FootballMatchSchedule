@@ -2,6 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/prev_match_layout"
     >
 
   <android.support.v4.widget.SwipeRefreshLayout
@@ -11,7 +12,7 @@
       >
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_next_match"
+        android:id="@+id/rv_prev_match"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         />

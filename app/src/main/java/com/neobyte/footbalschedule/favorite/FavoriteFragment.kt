@@ -34,6 +34,9 @@ class FavoriteFragment : Fragment(), FavoriteMatchView {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    val databaseHelper = DatabaseHelper.getInstance(view.context)
+    favoriteMatchPresenter = FavoriteMatchPresenter(this, databaseHelper)
+
     adapter = MatchAdapter(matches) { pos ->
       val event = matches[pos]
       event?.let {
@@ -53,8 +56,7 @@ class FavoriteFragment : Fragment(), FavoriteMatchView {
 
   override fun onResume() {
     super.onResume()
-    val databaseHelper = DatabaseHelper(context!!)
-    favoriteMatchPresenter = FavoriteMatchPresenter(this, databaseHelper)
+    favoriteMatchPresenter.getFavMatch()
   }
 
   override fun setScreenState(homeScreenState: HomeScreenState) {

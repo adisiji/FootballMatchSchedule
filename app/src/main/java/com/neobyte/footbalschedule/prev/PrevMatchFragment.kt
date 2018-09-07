@@ -15,7 +15,7 @@ import com.neobyte.footbalschedule.MatchAdapter
 import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.detail.MatchDetailActivity
 import com.neobyte.footbalschedule.models.Event
-import kotlinx.android.synthetic.main.fragment_prev_match.rv_next_match
+import kotlinx.android.synthetic.main.fragment_prev_match.rv_prev_match
 import kotlinx.android.synthetic.main.fragment_prev_match.swipe_prev_layout
 
 class PrevMatchFragment : Fragment(), PrevMatchView {
@@ -33,6 +33,8 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
 
+    prevMatchPresenter = PrevMatchPresenter(this, FootballMatchService.instance)
+
     adapter = MatchAdapter(matches) { pos ->
       val event = matches[pos]
       event?.let {
@@ -42,8 +44,8 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
       }
     }
     val layoutManager = LinearLayoutManager(context)
-    rv_next_match.layoutManager = layoutManager
-    rv_next_match.adapter = adapter
+    rv_prev_match.layoutManager = layoutManager
+    rv_prev_match.adapter = adapter
     swipe_prev_layout.setOnRefreshListener {
       prevMatchPresenter.getPrevMatches()
     }
@@ -51,7 +53,6 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
 
   override fun onResume() {
     super.onResume()
-    prevMatchPresenter = PrevMatchPresenter(this, FootballMatchService.instance)
     prevMatchPresenter.getPrevMatches()
   }
 

@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.neobyte.footbalschedule.Constants
+import com.neobyte.footbalschedule.FootballMatchService
 import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.models.Event
@@ -39,6 +40,7 @@ import kotlinx.android.synthetic.main.activity_match_detail.tv_substitutes_team_
 import kotlinx.android.synthetic.main.activity_match_detail.tv_substitutes_team_2
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_1
 import kotlinx.android.synthetic.main.activity_match_detail.tv_team_2
+import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -60,7 +62,7 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
   override fun onResume() {
     super.onResume()
     val databaseHelper = DatabaseHelper.getInstance(this)
-    presenter = MatchDetailPresenter(databaseHelper, this)
+    presenter = MatchDetailPresenter(databaseHelper, this, FootballMatchService.instance)
     setupView(event)
   }
 
@@ -103,9 +105,13 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
     val matchIsDone = intent.getBooleanExtra(Constants.DONE_MATCH, true)
 
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-    val myDate = sdf.parse(event.dateEvent)
-    sdf.applyPattern("EEE, d MMM yyyy")
-    tv_date_detail.text = sdf.format(myDate)
+    try {
+      val myDate = sdf.parse(event.dateEvent)
+      sdf.applyPattern("EEE, d MMM yyyy")
+      tv_date_detail.text = sdf.format(myDate)
+    } catch (e: ParseException) {
+      e.printStackTrace()
+    }
     tv_team_1.text = event.strHomeTeam
     presenter.getTeam(event.idHomeTeam ?: "", object : GetTeamListener {
       override fun onLoading() {
