@@ -8,9 +8,9 @@ import io.reactivex.schedulers.Schedulers
 class NextMatchPresenter(private val nextMatchView: NextMatchView,
                          private val footballMatchService: FootballMatchService) {
 
-  fun getNextMatches() {
+  fun getNextMatches(leagueId: String) {
     nextMatchView.setScreenState(HomeScreenState.Loading)
-    footballMatchService.getNextEvent()
+    footballMatchService.getNextEvent(leagueId)
         .subscribeOn(Schedulers.io())
         .observeOn(AndroidSchedulers.mainThread())
         .subscribe({ eventResponses ->

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import com.neobyte.footbalschedule.favorite.FavoriteFragment
+import com.neobyte.footbalschedule.matches.MatchesFragment
 import com.neobyte.footbalschedule.next.NextMatchFragment
-import com.neobyte.footbalschedule.prev.PrevMatchFragment
 import kotlinx.android.synthetic.main.activity_main.nav_bottom
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     nav_bottom.setOnNavigationItemSelectedListener {
       when (it.itemId) {
         R.id.action_prev -> {
-          val fragment = PrevMatchFragment()
+          val fragment = MatchesFragment()
           changeHomeFragment(fragment)
           true
         }

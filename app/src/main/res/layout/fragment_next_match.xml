@@ -1,16 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/next_match_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".next.NextMatchFragment"
-    android:id="@+id/next_match_layout"
     >
+
+  <RelativeLayout
+      android:id="@+id/league_name"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@android:color/white"
+      android:paddingBottom="12dp"
+      android:paddingEnd="16dp"
+      android:paddingStart="16dp"
+      android:paddingTop="12dp"
+      >
+
+    <TextView
+        android:id="@+id/tv_league"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="English Premiere League"
+        />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_chevron_right_blue_grey_900_24dp"
+        />
+
+  </RelativeLayout>
 
   <android.support.v4.widget.SwipeRefreshLayout
       android:id="@+id/swipe_next_layout"
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
+      android:layout_height="0dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/league_name"
       >
 
     <android.support.v7.widget.RecyclerView

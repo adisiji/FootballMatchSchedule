@@ -6,20 +6,20 @@
       android:id="@+id/action_prev"
       android:enabled="true"
       android:icon="@drawable/ic_gradient_blue_500_24dp"
-      android:title="Prev Match"
+      android:title="Matches"
       app:showAsAction="ifRoom" />
   <item
       android:id="@+id/action_next"
       android:enabled="true"
       android:icon="@drawable/ic_today_blue_500_24dp"
-      android:title="Next Match"
+      android:title="Teams"
       app:showAsAction="ifRoom" />
 
   <item
       android:id="@+id/action_favorite"
       android:enabled="true"
       android:icon="@drawable/ic_stars_blue_500_24dp"
-      android:title="Favorite"
+      android:title="Favorites"
       app:showAsAction="ifRoom" />
 
 </menu>

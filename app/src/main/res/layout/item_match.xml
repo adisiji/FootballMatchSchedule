@@ -20,11 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="22 September 2018"
-        android:textSize="16sp"
         android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/tvTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        app:layout_constraintLeft_toLeftOf="@id/tv_date"
+        app:layout_constraintRight_toRightOf="@id/tv_date"
+        android:text="22:22"
+        app:layout_constraintTop_toBottomOf="@id/tv_date"
         />
 
     <TextView
@@ -39,7 +50,7 @@
         android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/tv_skor_team_1"
-        app:layout_constraintTop_toBottomOf="@id/tv_date"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
         />
 
     <TextView
@@ -62,7 +73,7 @@
         android:text="VS"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_date"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
         />
 
     <TextView
@@ -76,7 +87,7 @@
         android:textSize="16sp"
         app:layout_constraintLeft_toRightOf="@id/tv_skor_team_2"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_date"
+        app:layout_constraintTop_toBottomOf="@id/tvTime"
         />
 
     <TextView
@@ -89,6 +100,15 @@
         android:textStyle="bold"
         app:layout_constraintBaseline_toBaselineOf="@id/tv_team_1"
         app:layout_constraintLeft_toRightOf="@id/tv_vs"
+        />
+
+    <ImageView
+        android:id="@+id/ivAlarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@drawable/ic_add_alarm_blue_grey_900_24dp"
+        app:layout_constraintRight_toRightOf="parent"
         />
 
   </android.support.constraint.ConstraintLayout>
