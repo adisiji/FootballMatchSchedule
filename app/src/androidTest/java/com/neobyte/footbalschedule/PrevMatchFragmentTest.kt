@@ -16,6 +16,7 @@ import com.neobyte.footbalschedule.detail.MatchDetailActivity
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.Random
 
 @RunWith(AndroidJUnit4::class)
 @LargeTest
@@ -30,8 +31,10 @@ class PrevMatchFragmentTest {
     onView(withId(R.id.action_prev)).perform(click())
     onView(withId(R.id.prev_match_layout)).check(matches(isDisplayed()))
 
+    val rand = Random()
+    val itemPos = rand.nextInt(14)
     onView(withId(R.id.rv_prev_match))
-        .perform(RecyclerViewActions.actionOnItemAtPosition<TeamViewHolder>(0, click()))
+        .perform(RecyclerViewActions.actionOnItemAtPosition<TeamViewHolder>(itemPos, click()))
     intended(hasComponent(MatchDetailActivity::class.java.name))
   }
 

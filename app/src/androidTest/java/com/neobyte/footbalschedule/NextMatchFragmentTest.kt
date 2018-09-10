@@ -36,7 +36,5 @@ class NextMatchFragmentTest {
     onView(withId(R.id.rv_next_match))
         .perform(RecyclerViewActions.actionOnItemAtPosition<TeamViewHolder>(itemPos, click()))
     intended(IntentMatchers.hasComponent(MatchDetailActivity::class.java.name))
-
-    onView(withId(R.id.add_to_favorite)).perform(click())
   }
 }
