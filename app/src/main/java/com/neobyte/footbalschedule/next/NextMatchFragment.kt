@@ -20,6 +20,7 @@ import com.neobyte.footbalschedule.detail.MatchDetailActivity
 import com.neobyte.footbalschedule.league.SearchLeagueActivity
 import com.neobyte.footbalschedule.league.SearchLeagueActivity.Companion.SEARCH_LEAGUE_CODE
 import com.neobyte.footbalschedule.models.Event
+import kotlinx.android.synthetic.main.fragment_next_match.league_name
 import kotlinx.android.synthetic.main.fragment_next_match.rv_next_match
 import kotlinx.android.synthetic.main.fragment_next_match.swipe_next_layout
 import kotlinx.android.synthetic.main.fragment_next_match.tv_league
@@ -69,7 +70,7 @@ class NextMatchFragment : Fragment(), NextMatchView {
       nextMatchPresenter.getNextMatches(leagueId)
     }
 
-    tv_league.setOnClickListener {
+    league_name.setOnClickListener {
       startActivityForResult(Intent(context, SearchLeagueActivity::class.java), SEARCH_LEAGUE_CODE)
     }
 
@@ -117,5 +118,10 @@ class NextMatchFragment : Fragment(), NextMatchView {
     super.onSaveInstanceState(outState)
     outState.putString(LEAGUE_NAME, leagueName)
     outState.putString(LEAGUE_ID, leagueId)
+  }
+
+  override fun onStop() {
+    nextMatchPresenter.dispose()
+    super.onStop()
   }
 }

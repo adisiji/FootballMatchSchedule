@@ -1,26 +1,25 @@
-package com.neobyte.footbalschedule.league
+package com.neobyte.footbalschedule.search
 
 import com.neobyte.footbalschedule.FootballMatchService
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class SearchLeaguePresenter(private val searchLeagueView: SearchLeagueView,
-                            private val footballMatchService: FootballMatchService) {
+class SearchMatchPresenter(private val searchMatchView: SearchMatchView,
+                           private val apiService: FootballMatchService) {
 
   private val compositeDisposable = CompositeDisposable()
 
-  fun getAllLeague() {
-    searchLeagueView.onLoading()
+  fun searchTeamMatch(query: String?) {
+    searchMatchView.onLoading()
     compositeDisposable.add(
-        footballMatchService.getAllLeagues()
+        apiService.searchEvents(query ?: "")
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                         searchLeagueView.onSuccess(it.leagues)
+                         searchMatchView.onSuccess(it.events)
                        }, {
-                         it.printStackTrace()
-                         searchLeagueView.onError(it.localizedMessage)
+                         searchMatchView.onFailed(it.localizedMessage)
                        })
     )
   }
@@ -28,4 +27,5 @@ class SearchLeaguePresenter(private val searchLeagueView: SearchLeagueView,
   fun dispose() {
     compositeDisposable.clear()
   }
+
 }

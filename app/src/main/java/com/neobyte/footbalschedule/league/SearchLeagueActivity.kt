@@ -27,6 +27,8 @@ class SearchLeagueActivity : AppCompatActivity(), SearchLeagueView {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_search_league)
 
+    supportActionBar?.title = "Search League"
+
     presenter = SearchLeaguePresenter(this, FootballMatchService.instance)
     adapter = SearchLeagueAdapter(leagueList) {
       val intent = Intent().apply {
@@ -66,5 +68,10 @@ class SearchLeagueActivity : AppCompatActivity(), SearchLeagueView {
       presenter.getAllLeague()
     }
     snackbar.show()
+  }
+
+  override fun onStop() {
+    presenter.dispose()
+    super.onStop()
   }
 }

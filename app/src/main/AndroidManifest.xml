@@ -23,7 +23,11 @@
         android:name=".detail.MatchDetailActivity"
         android:parentActivityName=".MainActivity">
     </activity>
-    <activity android:name=".league.SearchLeagueActivity">
+    <activity android:name=".league.SearchLeagueActivity"
+        android:parentActivityName=".MainActivity">
+    </activity>
+    <activity android:name=".search.SearchMatchActivity"
+        android:parentActivityName=".MainActivity">
     </activity>
   </application>
 

@@ -20,6 +20,7 @@ import com.neobyte.footbalschedule.detail.MatchDetailActivity
 import com.neobyte.footbalschedule.league.SearchLeagueActivity
 import com.neobyte.footbalschedule.models.Event
 import kotlinx.android.synthetic.main.fragment_next_match.tv_league
+import kotlinx.android.synthetic.main.fragment_prev_match.league_name
 import kotlinx.android.synthetic.main.fragment_prev_match.rv_prev_match
 import kotlinx.android.synthetic.main.fragment_prev_match.swipe_prev_layout
 
@@ -67,7 +68,7 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
       prevMatchPresenter.getPrevMatches(leagueId)
     }
 
-    tv_league.setOnClickListener {
+    league_name.setOnClickListener {
       startActivityForResult(Intent(context, SearchLeagueActivity::class.java),
                              SearchLeagueActivity.SEARCH_LEAGUE_CODE)
     }
@@ -115,5 +116,10 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
     super.onSaveInstanceState(outState)
     outState.putString(LEAGUE_NAME, leagueName)
     outState.putString(LEAGUE_ID, leagueId)
+  }
+
+  override fun onStop() {
+    prevMatchPresenter.dispose()
+    super.onStop()
   }
 }
