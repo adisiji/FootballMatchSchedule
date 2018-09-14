@@ -2,6 +2,7 @@ package com.neobyte.footbalschedule
 
 import com.neobyte.footbalschedule.models.EventResponses
 import com.neobyte.footbalschedule.models.LeagueResponse
+import com.neobyte.footbalschedule.models.PlayerResponse
 import com.neobyte.footbalschedule.models.SearchEventResponses
 import com.neobyte.footbalschedule.models.TeamResponse
 import io.reactivex.Observable
@@ -38,5 +39,11 @@ interface FootballMatchService {
 
   @GET("searchevents.php")
   fun searchEvents(@Query("e") team: String): Observable<SearchEventResponses>
+
+  @GET("lookup_all_players.php")
+  fun getAllPlayerTeam(@Query("id") teamId: String): Observable<PlayerResponse>
+
+  @GET("lookup_all_teams.php")
+  fun getAllTeams(@Query("id") leagueId: String): Observable<TeamResponse>
 
 }

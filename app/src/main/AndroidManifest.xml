@@ -31,7 +31,7 @@
         android:name=".search.SearchMatchActivity"
         android:parentActivityName=".MainActivity">
     </activity>
-    <activity android:name=".team.TeamDetailActivity"
+    <activity android:name=".teamdetail.TeamDetailActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

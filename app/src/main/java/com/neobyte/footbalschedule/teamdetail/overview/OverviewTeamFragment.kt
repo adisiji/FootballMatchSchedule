@@ -1,4 +1,4 @@
-package com.neobyte.footbalschedule.team.overview
+package com.neobyte.footbalschedule.teamdetail.overview
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

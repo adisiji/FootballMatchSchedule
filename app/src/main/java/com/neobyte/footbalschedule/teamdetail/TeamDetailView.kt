@@ -1,4 +1,4 @@
-package com.neobyte.footbalschedule.team
+package com.neobyte.footbalschedule.teamdetail
 
 interface TeamDetailView {
   fun showSnackbar(message: String)

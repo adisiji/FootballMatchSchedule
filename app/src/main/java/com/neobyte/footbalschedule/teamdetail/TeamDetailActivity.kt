@@ -1,4 +1,4 @@
-package com.neobyte.footbalschedule.team
+package com.neobyte.footbalschedule.teamdetail
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
+import android.support.v4.app.FragmentActivity
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
@@ -39,7 +40,7 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailView {
     private const val EXTRA_IMAGE = "extra_image_team"
     private const val EXTRA_TEAM = "extra_team"
 
-    fun navigate(from: AppCompatActivity,
+    fun navigate(from: FragmentActivity,
                  transitionImage: View,
                  team: Team) {
       val intent = Intent(from, TeamDetailActivity::class.java).apply {

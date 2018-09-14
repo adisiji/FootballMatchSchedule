@@ -16,7 +16,7 @@ import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.models.Event
 import com.neobyte.footbalschedule.models.Team
-import com.neobyte.footbalschedule.team.TeamDetailActivity
+import com.neobyte.footbalschedule.teamdetail.TeamDetailActivity
 import kotlinx.android.synthetic.main.activity_match_detail.iv_logo_team1
 import kotlinx.android.synthetic.main.activity_match_detail.iv_logo_team2
 import kotlinx.android.synthetic.main.activity_match_detail.progress_logo_1

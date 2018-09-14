@@ -1,4 +1,4 @@
-package com.neobyte.footbalschedule.team
+package com.neobyte.footbalschedule.teamdetail
 
 import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.db.DatabaseListener

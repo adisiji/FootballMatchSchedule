@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <item
-      android:id="@+id/action_prev"
+      android:id="@+id/action_matches"
       android:enabled="true"
       android:icon="@drawable/ic_gradient_blue_500_24dp"
       android:title="Matches"
       app:showAsAction="ifRoom" />
   <item
-      android:id="@+id/action_next"
+      android:id="@+id/action_teams"
       android:enabled="true"
       android:icon="@drawable/ic_today_blue_500_24dp"
       android:title="Teams"
