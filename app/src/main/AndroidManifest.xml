@@ -31,7 +31,11 @@
         android:name=".search.SearchMatchActivity"
         android:parentActivityName=".MainActivity">
     </activity>
-    <activity android:name=".teamdetail.TeamDetailActivity"
+    <activity
+        android:name=".teamdetail.TeamDetailActivity"
+        android:theme="@style/AppTheme.NoActionBar">
+    </activity>
+    <activity android:name=".player.PlayerActivity"
         android:theme="@style/AppTheme.NoActionBar">
     </activity>
   </application>

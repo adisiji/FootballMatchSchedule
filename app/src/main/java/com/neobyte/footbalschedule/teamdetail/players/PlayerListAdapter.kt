@@ -11,7 +11,9 @@ import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.models.Player
 import com.neobyte.footbalschedule.teamdetail.players.PlayerListAdapter.PlayerListViewHolder
 
-class PlayerListAdapter(private val playerList: List<Player?>) : RecyclerView.Adapter<PlayerListViewHolder>() {
+class PlayerListAdapter(private val playerList: List<Player?>,
+                        private val listener: (player: Player, view: View) -> Unit) :
+    RecyclerView.Adapter<PlayerListViewHolder>() {
 
   override fun onCreateViewHolder(p0: ViewGroup,
                                   p1: Int): PlayerListViewHolder {
@@ -39,6 +41,9 @@ class PlayerListAdapter(private val playerList: List<Player?>) : RecyclerView.Ad
             .into(ivPlayer)
         tvPlayerName.text = player.strPlayer
         tvPlayerPos.text = player.strPosition
+        itemView.setOnClickListener { _ ->
+          listener(it, ivPlayer)
+        }
       }
     }
 

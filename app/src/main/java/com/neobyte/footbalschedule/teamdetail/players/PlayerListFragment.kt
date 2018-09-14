@@ -11,6 +11,7 @@ import com.neobyte.footbalschedule.FootballMatchService
 import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.models.Player
 import com.neobyte.footbalschedule.models.Team
+import com.neobyte.footbalschedule.player.PlayerActivity
 import kotlinx.android.synthetic.main.fragment_player_list.rv_team_players
 import kotlinx.android.synthetic.main.fragment_player_list.swipe_player_list
 
@@ -51,7 +52,9 @@ class PlayerListFragment : Fragment(), PlayerListView {
   override fun onViewCreated(view: View,
                              savedInstanceState: Bundle?) {
     super.onViewCreated(view, savedInstanceState)
-    adapter = PlayerListAdapter(listPlayer)
+    adapter = PlayerListAdapter(listPlayer) { p, v ->
+      PlayerActivity.navigate(activity!!, v, p)
+    }
     rv_team_players.layoutManager = LinearLayoutManager(context)
     rv_team_players.adapter = adapter
 
