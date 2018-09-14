@@ -11,6 +11,7 @@ import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
 import android.transition.Slide
+import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
@@ -112,5 +113,16 @@ class PlayerActivity : AppCompatActivity() {
     }
     supportStartPostponedEnterTransition()
     //presenter.getFavorite(team.idTeam ?: "0")
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    when (item.itemId) {
+      android.R.id.home -> {
+        onBackPressed()
+        return true
+      }
+    }
+
+    return super.onOptionsItemSelected(item)
   }
 }
