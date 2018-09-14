@@ -46,4 +46,7 @@ interface FootballMatchService {
   @GET("lookup_all_teams.php")
   fun getAllTeams(@Query("id") leagueId: String): Observable<TeamResponse>
 
+  @GET("searchteams.php")
+  fun searchTeam(@Query("t") teamQuery: String): Observable<TeamResponse>
+
 }

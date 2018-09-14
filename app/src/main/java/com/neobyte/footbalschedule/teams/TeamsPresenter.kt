@@ -25,6 +25,21 @@ class TeamsPresenter(private val matchService: FootballMatchService,
     )
   }
 
+  fun searchTeam(teamQuery: String) {
+    teamsView.onLoading()
+    compositeDisposable.add(
+        matchService.searchTeam(teamQuery)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+                         teamsView.onSuccess(it.teams)
+                       }, {
+                         System.out.print(it.message)
+                         teamsView.onFailed(it.localizedMessage)
+                       })
+    )
+  }
+
   fun dispose() {
     compositeDisposable.clear()
   }

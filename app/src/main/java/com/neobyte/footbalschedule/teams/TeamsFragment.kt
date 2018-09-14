@@ -5,20 +5,31 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.MenuItem.OnActionExpandListener
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import android.widget.Toast
 import com.neobyte.footbalschedule.Constants
 import com.neobyte.footbalschedule.FootballMatchService
 import com.neobyte.footbalschedule.R
+import com.neobyte.footbalschedule.RxSearchObservable
 import com.neobyte.footbalschedule.league.SearchLeagueActivity
 import com.neobyte.footbalschedule.models.Team
 import com.neobyte.footbalschedule.teamdetail.TeamDetailActivity
-import kotlinx.android.synthetic.main.fragment_next_match.tv_league
-import kotlinx.android.synthetic.main.fragment_prev_match.league_name
+import io.reactivex.android.schedulers.AndroidSchedulers
+import kotlinx.android.synthetic.main.fragment_teams.league_name
 import kotlinx.android.synthetic.main.fragment_teams.rv_teams
 import kotlinx.android.synthetic.main.fragment_teams.swipe_teams_layout
+import kotlinx.android.synthetic.main.fragment_teams.tv_league
+import java.util.concurrent.TimeUnit
 
 class TeamsFragment : Fragment(), TeamsView {
 
@@ -27,11 +38,13 @@ class TeamsFragment : Fragment(), TeamsView {
   private val teams = mutableListOf<Team?>()
   private var leagueId = "4328"
   private var leagueName = "English Premiere League"
+  private var searchView: SearchView? = null
 
   override fun onCreateView(inflater: LayoutInflater,
                             container: ViewGroup?,
                             savedInstanceState: Bundle?): View? {
     presenter = TeamsPresenter(FootballMatchService.instance, this)
+    setHasOptionsMenu(true)
     return inflater.inflate(R.layout.fragment_teams, container, false)
   }
 
@@ -66,6 +79,48 @@ class TeamsFragment : Fragment(), TeamsView {
     presenter.getTeams(leagueId)
   }
 
+  override fun onCreateOptionsMenu(menu: Menu?,
+                                   inflater: MenuInflater) {
+    super.onCreateOptionsMenu(menu, inflater)
+    inflater.inflate(R.menu.menu_search, menu)
+    val searchItem = menu?.findItem(R.id.search)
+    searchView = searchItem?.actionView as SearchView
+    searchView?.let {
+      it.queryHint = "Search Team"
+      it.setIconifiedByDefault(true)
+      RxSearchObservable.fromView(it)
+          .debounce(300, TimeUnit.MILLISECONDS)
+          .observeOn(AndroidSchedulers.mainThread())
+          .filter { text ->
+            if (text.isEmpty()) {
+              clearItems()
+              false
+            } else true
+          }
+          .distinctUntilChanged()
+          .subscribe({ query ->
+                       presenter.searchTeam(query)
+                     }, { e ->
+                       Log.e("RxSearchObservable", "Failed", e)
+                     })
+    }
+
+    searchItem.setOnActionExpandListener(object : OnActionExpandListener {
+      override fun onMenuItemActionExpand(item: MenuItem?): Boolean {
+        league_name.visibility = GONE
+        return true
+      }
+
+      override fun onMenuItemActionCollapse(item: MenuItem): Boolean {
+        league_name.visibility = VISIBLE
+        presenter.getTeams(leagueId)
+        return true
+      }
+
+    })
+
+  }
+
   override fun onActivityResult(requestCode: Int,
                                 resultCode: Int,
                                 data: Intent?) {
@@ -78,6 +133,11 @@ class TeamsFragment : Fragment(), TeamsView {
         presenter.getTeams(leagueId)
       }
     }
+  }
+
+  private fun clearItems() {
+    teams.clear()
+    adapter.notifyDataSetChanged()
   }
 
   override fun onLoading() {
