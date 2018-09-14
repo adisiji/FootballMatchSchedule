@@ -1,19 +1,22 @@
 package com.neobyte.footbalschedule.models
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Team(
   @SerializedName("idTeam") val idTeam: String? = "",
   @SerializedName("idSoccerXML") val idSoccerXML: String? = "",
   @SerializedName("intLoved") val intLoved: String? = "",
   @SerializedName("strTeam") val strTeam: String? = "",
-  @SerializedName("strTeamShort") val strTeamShort: Any?,
+  @SerializedName("strTeamShort") val strTeamShort: String? = "",
   @SerializedName("strAlternate") val strAlternate: String? = "",
   @SerializedName("intFormedYear") val intFormedYear: String? = "",
   @SerializedName("strSport") val strSport: String? = "",
   @SerializedName("strLeague") val strLeague: String? = "",
   @SerializedName("idLeague") val idLeague: String? = "",
-  @SerializedName("strDivision") val strDivision: Any?,
+  @SerializedName("strDivision") val strDivision: String? = "",
   @SerializedName("strManager") val strManager: String? = "",
   @SerializedName("strStadium") val strStadium: String? = "",
   @SerializedName("strKeywords") val strKeywords: String? = "",
@@ -39,4 +42,4 @@ data class Team(
   @SerializedName("strTeamBanner") val strTeamBanner: String? = "",
   @SerializedName("strYoutube") val strYoutube: String? = "",
   @SerializedName("strLocked") val strLocked: String? = ""
-)
+) : Parcelable

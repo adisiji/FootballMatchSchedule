@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.neobyte.footbalschedule.Constants
@@ -15,6 +16,7 @@ import com.neobyte.footbalschedule.R
 import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.models.Event
 import com.neobyte.footbalschedule.models.Team
+import com.neobyte.footbalschedule.team.TeamDetailActivity
 import kotlinx.android.synthetic.main.activity_match_detail.iv_logo_team1
 import kotlinx.android.synthetic.main.activity_match_detail.iv_logo_team2
 import kotlinx.android.synthetic.main.activity_match_detail.progress_logo_1
@@ -121,6 +123,7 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
       override fun onSuccess(team: Team) {
         Glide.with(this@MatchDetailActivity).load(team.strTeamLogo).into(iv_logo_team1)
         progress_logo_1.visibility = View.GONE
+        setupImgTeamListener(iv_logo_team1, team)
       }
 
       override fun onFailed(message: String?) {
@@ -139,6 +142,7 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
 
       override fun onSuccess(team: Team) {
         Glide.with(this@MatchDetailActivity).load(team.strTeamLogo).into(iv_logo_team2)
+        setupImgTeamListener(iv_logo_team2, team)
         progress_logo_2.visibility = View.GONE
       }
 
@@ -173,7 +177,12 @@ class MatchDetailActivity : AppCompatActivity(), MatchDetailView {
       tv_substitutes_team_1.text = event.strHomeLineupSubstitutes.changeNewLine()
       tv_substitutes_team_2.text = event.strAwayLineupSubstitutes.changeNewLine()
     }
+  }
 
+  private fun setupImgTeamListener(view: ImageView, team: Team) {
+    view.setOnClickListener {
+      TeamDetailActivity.navigate(this, it, team)
+    }
   }
 
   private fun String?.changeNewLine(): String? {

@@ -12,4 +12,5 @@
   <string name="forward">Forward</string>
   <string name="substitutes">Substitutes</string>
   <string name="search_hint">Search</string>
+  <string name="description">Description</string>
 </resources>
