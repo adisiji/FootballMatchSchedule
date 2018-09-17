@@ -30,9 +30,9 @@ class FavoriteMatchFragmentTest {
   @Test
   fun testFavoriteFragment() {
     onView(withId(id.action_favorite)).perform(ViewActions.click())
-    onView(withId(R.id.fav_match_layout)).check(matches(ViewMatchers.isDisplayed()))
+    onView(withId(R.id.favourite_layout)).check(matches(ViewMatchers.isDisplayed()))
 
-    Thread.sleep(2000)
+    //Thread.sleep(2000)
 
     val favFragment = mainActivityRule.activity.supportFragmentManager.findFragmentById(
         R.id.frame_content) as FavoriteFragment

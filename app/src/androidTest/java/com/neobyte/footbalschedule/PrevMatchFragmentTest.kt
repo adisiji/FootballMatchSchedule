@@ -7,6 +7,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.intent.Intents.intended
 import android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent
 import android.support.test.espresso.intent.rule.IntentsTestRule
+import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.filters.LargeTest
@@ -28,7 +29,8 @@ class PrevMatchFragmentTest {
 
   @Test
   fun testClickPrevMenuItem() {
-    onView(withId(R.id.action_prev)).perform(click())
+    onView(withId(R.id.action_matches)).perform(click())
+    onView(ViewMatchers.withSubstring("Prev")).perform(click())
     onView(withId(R.id.prev_match_layout)).check(matches(isDisplayed()))
 
     val rand = Random()

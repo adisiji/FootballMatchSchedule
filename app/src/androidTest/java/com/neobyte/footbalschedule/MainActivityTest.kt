@@ -23,27 +23,27 @@ class MainActivityTest {
 
   @Test
   fun testAllBottomMenuIsClickable() {
-    onView(withId(R.id.action_prev)).check(matches(isClickable()))
-    onView(withId(R.id.action_next)).check(matches(isClickable()))
+    onView(withId(R.id.action_matches)).check(matches(isClickable()))
+    onView(withId(R.id.action_teams)).check(matches(isClickable()))
     onView(withId(R.id.action_favorite)).check(matches(isClickable()))
   }
 
   @Test
-  fun testNextMatchIsDisplayed() {
-    onView(withId(R.id.action_next)).perform(click())
-    onView(withId(R.id.next_match_layout)).check(matches(isDisplayed()))
+  fun testMatchesIsDisplayed() {
+    onView(withId(R.id.action_matches)).perform(click())
+    onView(withId(R.id.matches_layout)).check(matches(isDisplayed()))
   }
 
   @Test
-  fun testPrevMatchIsDisplayed() {
-    onView(withId(R.id.action_prev)).perform(click())
-    onView(withId(R.id.prev_match_layout)).check(matches(isDisplayed()))
+  fun testTeamsIsDisplayed() {
+    onView(withId(R.id.action_teams)).perform(click())
+    onView(withId(R.id.teams_layout)).check(matches(isDisplayed()))
   }
 
   @Test
-  fun testFavMatchIsDisplayed() {
+  fun testFavouriteIsDisplayed() {
     onView(withId(R.id.action_favorite)).perform(click())
-    onView(withId(R.id.fav_match_layout)).check(matches(isDisplayed()))
+    onView(withId(R.id.favourite_layout)).check(matches(isDisplayed()))
   }
 
 }

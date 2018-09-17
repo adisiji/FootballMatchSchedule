@@ -5,6 +5,7 @@ import android.support.test.runner.AndroidJUnit4
 import com.neobyte.footbalschedule.db.DatabaseHelper
 import com.neobyte.footbalschedule.db.DatabaseListener
 import com.neobyte.footbalschedule.models.Event
+import com.neobyte.footbalschedule.models.Team
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -79,6 +80,61 @@ class DatabaseTest {
     val favEvent = databaseHelper.isMatchFavorite("$eventId")
 
     assertFalse(favEvent)
+  }
+
+  @Test
+  fun testInsertDeleteFavTeam() {
+    var startEventCount = databaseHelper.getAllFavTeams().size
+    val teamId = System.currentTimeMillis()
+    val team = Team(idTeam = "$teamId")
+    databaseHelper.insertFavTeam(team, object : DatabaseListener {
+      override fun onSuccess() {
+        startEventCount++
+      }
+
+      override fun onFailed(message: String) {
+        System.out.print(message)
+      }
+
+    })
+
+    val resultFavTeams = databaseHelper.getAllFavTeams()
+    assertEquals(startEventCount, resultFavTeams.size)
+
+    // remove fake team
+    databaseHelper.removeFavTeam("$teamId", null)
+  }
+
+  @Test
+  fun testTeamIsFavorite() {
+    var startEventCount = databaseHelper.getAllFavTeams().size
+    val teamId = System.currentTimeMillis()
+    val team = Team(idTeam = "$teamId")
+    databaseHelper.insertFavTeam(team, object : DatabaseListener {
+      override fun onSuccess() {
+        startEventCount++
+      }
+
+      override fun onFailed(message: String) {
+        System.out.print(message)
+      }
+
+    })
+
+    val favTeam = databaseHelper.isTeamFavorite("$teamId")
+
+    assertTrue(favTeam)
+
+    // remove fake team
+    databaseHelper.removeFavTeam("$teamId", null)
+  }
+
+  @Test
+  fun testTeamIsNotFavorite() {
+    val teamId = System.currentTimeMillis()
+    val favTeam = databaseHelper.isTeamFavorite("$teamId")
+
+    assertFalse(favTeam)
   }
 
 }

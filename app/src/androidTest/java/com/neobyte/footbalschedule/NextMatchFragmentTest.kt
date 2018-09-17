@@ -9,6 +9,7 @@ import android.support.test.espresso.intent.matcher.IntentMatchers
 import android.support.test.espresso.intent.rule.IntentsTestRule
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withSubstring
 import android.support.test.filters.LargeTest
 import android.support.test.runner.AndroidJUnit4
 import com.neobyte.footbalschedule.MatchAdapter.TeamViewHolder
@@ -28,7 +29,8 @@ class NextMatchFragmentTest {
 
   @Test
   fun testClickNextMenuItem() {
-    onView(withId(R.id.action_next)).perform(click())
+    onView(withId(R.id.action_matches)).perform(click())
+    onView(withSubstring("Next")).perform(click())
     onView(withId(R.id.next_match_layout)).check(matches(isDisplayed()))
 
     val rand = Random()
