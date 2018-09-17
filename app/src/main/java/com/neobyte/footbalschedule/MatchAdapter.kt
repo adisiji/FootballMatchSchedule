@@ -14,8 +14,11 @@ import java.util.Calendar
 import java.util.Locale
 import java.util.TimeZone
 
+
+
 class MatchAdapter(private val events: List<Event?>,
-                   private val listener: (pos: Int) -> Unit) :
+                   private val listener: (pos: Int) -> Unit,
+                   private var addCalendar: ((pos: Int) -> Unit)?) :
     RecyclerView.Adapter<TeamViewHolder>() {
 
   override fun onCreateViewHolder(p0: ViewGroup,
@@ -82,6 +85,9 @@ class MatchAdapter(private val events: List<Event?>,
 
         if (showMyReminder) {
           ivAlarm.visibility = View.VISIBLE
+          ivAlarm.setOnClickListener {
+            addCalendar?.invoke(pos)
+          }
         } else {
           ivAlarm.visibility = View.GONE
         }

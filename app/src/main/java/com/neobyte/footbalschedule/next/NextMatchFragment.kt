@@ -3,6 +3,8 @@ package com.neobyte.footbalschedule.next
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
+import android.provider.CalendarContract.Events
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
@@ -24,6 +26,9 @@ import kotlinx.android.synthetic.main.fragment_next_match.league_name
 import kotlinx.android.synthetic.main.fragment_next_match.rv_next_match
 import kotlinx.android.synthetic.main.fragment_next_match.swipe_next_layout
 import kotlinx.android.synthetic.main.fragment_next_match.tv_league
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 
 class NextMatchFragment : Fragment(), NextMatchView {
 
@@ -54,7 +59,7 @@ class NextMatchFragment : Fragment(), NextMatchView {
 
     nextMatchPresenter = NextMatchPresenter(this, FootballMatchService.instance)
 
-    adapter = MatchAdapter(matches) { pos ->
+    adapter = MatchAdapter(matches, { pos: Int ->
       val event = matches[pos]
       event?.let {
         val intent = Intent(context, MatchDetailActivity::class.java)
@@ -62,6 +67,8 @@ class NextMatchFragment : Fragment(), NextMatchView {
         intent.putExtra(Constants.DONE_MATCH, false)
         startActivity(intent)
       }
+    }) { pos ->
+      addToCalendar(pos)
     }
     val layoutManager = LinearLayoutManager(context)
     rv_next_match.layoutManager = layoutManager
@@ -74,6 +81,31 @@ class NextMatchFragment : Fragment(), NextMatchView {
       startActivityForResult(Intent(context, SearchLeagueActivity::class.java), SEARCH_LEAGUE_CODE)
     }
 
+  }
+
+  private fun addToCalendar(pos: Int) {
+    val match = matches[pos]
+    match?.let {
+      val sdf = SimpleDateFormat("yyyy-MM-dd 'T' HH:mm:ss", Locale.getDefault())
+      sdf.timeZone = TimeZone.getTimeZone("GMT")
+      val time = it.strTime?.substringBefore("+")
+      val myDate = sdf.parse("${it.dateEvent} T $time")
+
+      val startTime = myDate.time
+      val endTime = startTime + 90 * 60 * 1000
+
+      val intent = Intent(Intent.ACTION_INSERT)
+      intent.data = CalendarContract.Events.CONTENT_URI
+
+      intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+      intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+
+      intent.putExtra(Events.TITLE, it.strEvent)
+      intent.putExtra(Events.DESCRIPTION, it.strFilename)
+      intent.putExtra(Events.RRULE, "FREQ=DAILY;COUNT=1")
+
+      startActivity(intent)
+    }
   }
 
   override fun onResume() {

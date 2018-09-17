@@ -2,6 +2,8 @@ package com.neobyte.footbalschedule.search
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.CalendarContract
+import android.provider.CalendarContract.Events
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
@@ -20,6 +22,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_search_match.rv_search_match
 import kotlinx.android.synthetic.main.activity_search_match.swipe_search_match_layout
 import kotlinx.android.synthetic.main.activity_search_match.tv_no_data
+import java.text.SimpleDateFormat
+import java.util.Locale
+import java.util.TimeZone
 import java.util.concurrent.TimeUnit
 
 class SearchMatchActivity : AppCompatActivity(), SearchMatchView {
@@ -41,7 +46,7 @@ class SearchMatchActivity : AppCompatActivity(), SearchMatchView {
       it.setDisplayShowHomeEnabled(true)
     }
 
-    adapter = MatchAdapter(matches) { pos ->
+    adapter = MatchAdapter(matches,{ pos ->
       val event = matches[pos]
       event?.let {
         val intent = Intent(this, MatchDetailActivity::class.java)
@@ -49,7 +54,9 @@ class SearchMatchActivity : AppCompatActivity(), SearchMatchView {
         intent.putExtra(Constants.DONE_MATCH, true)
         startActivity(intent)
       }
-    }
+    }, {
+      addToCalendar(it)
+    })
 
     rv_search_match.layoutManager = LinearLayoutManager(this)
     rv_search_match.adapter = adapter
@@ -60,6 +67,31 @@ class SearchMatchActivity : AppCompatActivity(), SearchMatchView {
       }
     }
 
+  }
+
+  private fun addToCalendar(pos: Int) {
+    val match = matches[pos]
+    match?.let {
+      val sdf = SimpleDateFormat("yyyy-MM-dd 'T' HH:mm:ss", Locale.getDefault())
+      sdf.timeZone = TimeZone.getTimeZone("GMT")
+      val time = it.strTime?.substringBefore("+")
+      val myDate = sdf.parse("${it.dateEvent} T $time")
+
+      val startTime = myDate.time
+      val endTime = startTime + 90 * 60 * 1000
+
+      val intent = Intent(Intent.ACTION_INSERT)
+      intent.data = CalendarContract.Events.CONTENT_URI
+
+      intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startTime)
+      intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endTime)
+
+      intent.putExtra(Events.TITLE, it.strEvent)
+      intent.putExtra(Events.DESCRIPTION, it.strFilename)
+      intent.putExtra(Events.RRULE, "FREQ=DAILY;COUNT=1")
+
+      startActivity(intent)
+    }
   }
 
   override fun onCreateOptionsMenu(menu: Menu?): Boolean {

@@ -53,14 +53,14 @@ class PrevMatchFragment : Fragment(), PrevMatchView {
 
     prevMatchPresenter = PrevMatchPresenter(this, FootballMatchService.instance)
 
-    adapter = MatchAdapter(matches) { pos ->
+    adapter = MatchAdapter(matches, { pos ->
       val event = matches[pos]
       event?.let {
         val intent = Intent(context, MatchDetailActivity::class.java)
         intent.putExtra(Constants.EVENT, it)
         startActivity(intent)
       }
-    }
+    }, null)
     val layoutManager = LinearLayoutManager(context)
     rv_prev_match.layoutManager = layoutManager
     rv_prev_match.adapter = adapter
