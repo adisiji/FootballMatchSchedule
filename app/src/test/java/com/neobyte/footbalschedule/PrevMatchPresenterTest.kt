@@ -25,6 +25,8 @@ class PrevMatchPresenterTest : BasePresenterTest() {
 
   private lateinit var prevMatchPresenter: PrevMatchPresenter
 
+  val id = "1234"
+
   @Before
   fun setup() {
     prevMatchPresenter =
@@ -37,11 +39,11 @@ class PrevMatchPresenterTest : BasePresenterTest() {
       add(Event())
     }
     val eventResponses = EventResponses(listEvent)
-    whenever(footballMatchService.getLastEvent())
+    whenever(footballMatchService.getLastEvent(id))
         .thenReturn(Observable.just(eventResponses))
 
     val inorder = Mockito.inOrder(prevMatchView)
-    prevMatchPresenter.getPrevMatches()
+    prevMatchPresenter.getPrevMatches(id)
     inorder.verify(prevMatchView)
         .setScreenState(HomeScreenState.Loading)
     inorder.verify(prevMatchView)
@@ -52,11 +54,11 @@ class PrevMatchPresenterTest : BasePresenterTest() {
   fun testGetPrevMatch_Failed() {
     val message = "Error get match"
     val error = Throwable(message)
-    whenever(footballMatchService.getLastEvent())
+    whenever(footballMatchService.getLastEvent(id))
         .thenReturn(Observable.error(error))
 
     val inorder = Mockito.inOrder(prevMatchView)
-    prevMatchPresenter.getPrevMatches()
+    prevMatchPresenter.getPrevMatches(id)
     inorder.verify(prevMatchView)
         .setScreenState(HomeScreenState.Loading)
     inorder.verify(prevMatchView)

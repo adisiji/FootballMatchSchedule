@@ -30,7 +30,7 @@ class MatchDetailPresenterTest : BasePresenterTest() {
   @Mock
   lateinit var matchDetailView: MatchDetailView
 
-  lateinit var matchDetailPresenter: MatchDetailPresenter
+  private lateinit var matchDetailPresenter: MatchDetailPresenter
 
   private val fakeTeam = Team(strDivision = null, strTeamShort = null)
 

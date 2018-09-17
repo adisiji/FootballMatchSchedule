@@ -25,6 +25,8 @@ class NextMatchPresenterTest : BasePresenterTest() {
 
   private lateinit var nextMatchPresenter: NextMatchPresenter
 
+  val id = "1234"
+
   @Before
   fun setup() {
     nextMatchPresenter =
@@ -37,12 +39,12 @@ class NextMatchPresenterTest : BasePresenterTest() {
       add(Event())
     }
     val eventResponses = EventResponses(listEvent)
-    whenever(footballMatchService.getNextEvent()).thenReturn(
+    whenever(footballMatchService.getNextEvent(id)).thenReturn(
         Observable.just(eventResponses)
     )
 
     val inorder = inOrder(nextMatchView)
-    nextMatchPresenter.getNextMatches()
+    nextMatchPresenter.getNextMatches(id)
     inorder.verify(nextMatchView).setScreenState(HomeScreenState.Loading)
     inorder.verify(nextMatchView).setScreenState(HomeScreenState.Data(listEvent))
   }
@@ -51,12 +53,12 @@ class NextMatchPresenterTest : BasePresenterTest() {
   fun testGetNextMatch_Failed() {
     val message = "Error get match"
     val error = Throwable(message)
-    whenever(footballMatchService.getNextEvent()).thenReturn(
+    whenever(footballMatchService.getNextEvent(id)).thenReturn(
         Observable.error(error)
     )
 
     val inorder = inOrder(nextMatchView)
-    nextMatchPresenter.getNextMatches()
+    nextMatchPresenter.getNextMatches(id)
     inorder.verify(nextMatchView).setScreenState(HomeScreenState.Loading)
     inorder.verify(nextMatchView).setScreenState(HomeScreenState.Error(any()))
   }
