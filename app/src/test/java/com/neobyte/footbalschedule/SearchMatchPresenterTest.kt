@@ -32,7 +32,7 @@ class SearchMatchPresenterTest : BasePresenterTest() {
   @Test
   fun testSearchTeamMatch_Success() {
     val listEvents = mutableListOf<Event>().apply {
-      add(Event())
+      add(Event(strSport = "Soccer"))
     }
     val eventResponse = SearchEventResponses(listEvents)
     val query = "anything"

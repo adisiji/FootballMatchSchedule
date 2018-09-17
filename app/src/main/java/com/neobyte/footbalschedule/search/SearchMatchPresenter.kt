@@ -1,6 +1,8 @@
 package com.neobyte.footbalschedule.search
 
 import com.neobyte.footbalschedule.FootballMatchService
+import com.neobyte.footbalschedule.models.Event
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -15,9 +17,16 @@ class SearchMatchPresenter(private val searchMatchView: SearchMatchView,
     compositeDisposable.add(
         apiService.searchEvents(query ?: "")
             .subscribeOn(Schedulers.io())
+            .flatMap {
+              Observable.fromIterable(it.events)
+            }
+            .filter {t: Event ->
+              t.strSport == "Soccer"
+            }
+            .toList()
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
-                         searchMatchView.onSuccess(it.events)
+                         searchMatchView.onSuccess(it)
                        }, {
                          searchMatchView.onFailed(it.localizedMessage)
                        })
