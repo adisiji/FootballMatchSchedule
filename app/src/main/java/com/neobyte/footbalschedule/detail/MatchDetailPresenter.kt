@@ -41,7 +41,7 @@ class MatchDetailPresenter(private val databaseHelper: DatabaseHelper,
   }
 
   fun getFavorite(eventId: String) {
-    val favState = databaseHelper.isMatchFavorite(eventId)
+    favState = databaseHelper.isMatchFavorite(eventId)
     matchDetailView.setAsFavourite(favState)
   }
 

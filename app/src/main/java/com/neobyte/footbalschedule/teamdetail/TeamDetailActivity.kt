@@ -72,25 +72,29 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailView {
     collapsing_toolbar.setExpandedTitleColor(
         ContextCompat.getColor(this, android.R.color.transparent))
 
-    Glide.with(this).asBitmap().load(team.strTeamLogo).listener(object : RequestListener<Bitmap>{
-      override fun onLoadFailed(e: GlideException?,
-                                model: Any?,
-                                target: Target<Bitmap>?,
-                                isFirstResource: Boolean): Boolean {
-        return false
-      }
+    Glide.with(this)
+        .asBitmap()
+        .load(team.strTeamLogo)
+        .listener(object : RequestListener<Bitmap> {
+          override fun onLoadFailed(e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Bitmap>?,
+                                    isFirstResource: Boolean): Boolean {
+            return false
+          }
 
-      override fun onResourceReady(resource: Bitmap,
-                                   model: Any?,
-                                   target: Target<Bitmap>?,
-                                   dataSource: DataSource?,
-                                   isFirstResource: Boolean): Boolean {
-        Palette.from(resource)
-            .generate { palette -> applyPalette(palette) }
-        return false
-      }
+          override fun onResourceReady(resource: Bitmap,
+                                       model: Any?,
+                                       target: Target<Bitmap>?,
+                                       dataSource: DataSource?,
+                                       isFirstResource: Boolean): Boolean {
+            Palette.from(resource)
+                .generate { palette -> applyPalette(palette) }
+            return false
+          }
 
-    }).into(image)
+        })
+        .into(image)
 
     val viewpagerAdapter = TeamDetailPagerAdapter(supportFragmentManager, team)
     view_pager_team.adapter = viewpagerAdapter
@@ -104,15 +108,18 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailView {
   }
 
   override fun setAsFavourite(favourite: Boolean) {
+    fab.hide()
     if (favourite) {
       fab.setImageResource(R.drawable.ic_star_white_24dp)
     } else {
       fab.setImageResource(R.drawable.ic_star_border_white_24dp)
     }
+    fab.show()
   }
 
   override fun showSnackbar(message: String) {
-    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT).show()
+    Snackbar.make(findViewById(android.R.id.content), message, Snackbar.LENGTH_SHORT)
+        .show()
   }
 
   private fun initActivityTransitions() {
@@ -136,7 +143,8 @@ class TeamDetailActivity : AppCompatActivity(), TeamDetailView {
 
   private fun updateBackground(fab: FloatingActionButton,
                                palette: Palette) {
-    val lightVibrantColor = palette.getLightVibrantColor(ContextCompat.getColor(this, android.R.color.white))
+    val lightVibrantColor =
+      palette.getLightVibrantColor(ContextCompat.getColor(this, android.R.color.white))
     val vibrantColor = palette.getVibrantColor(ContextCompat.getColor(this, R.color.accent))
 
     fab.rippleColor = lightVibrantColor
